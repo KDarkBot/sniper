@@ -1,0 +1,32 @@
+/*INSERT GROUP ID AND COOKIE BELOW*/
+
+var groupId = 16803744 // << Replace 12345 with your Group Id
+var cookie = "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_51A25E78453FC0533BD02C4D14C7A34EB61B9BE6CA73B59BFA1866AE0ABF855283D12FD0C295AB6CBC2DEB714FCB6D6171433F606C6A58FCB8C8C444AE98B6D1FF3EF578DD6CFA34B91B4F938FC2540DE3D29341279E3D6832E7E17BDF031F888DD175F06F17B5EA2211F240AD64D57AACE3DAC2B656988A481088DC0513BD2AA9AADE3C5A2EBB4A963075757DE2241121DC6E714E0ED81D7BD9E03ECF7EAA857F173E697B862541AA78BBF95D811F807E59B22DC251A5FBE00382F43D1BE15D8B38D76D62658F039301A584462E73055190336EEEB2D696223DBEAA1AA63DEAAE93027FF6CCDD4F7599B10599EC89160607421431454B4E768D85EE87E6A5C3796538277A3F1FF9886F10FABFAEB8142E77A57174972A105604B5E0FE7319ED0E2AC0E6FB9CB4376537442DDA2B9C703BB3DCF8F7BC2A3DA8D4A2A487A569689D02A4E050E68155E311EA28E6F40BDDEFD23CCE00511639B9A0C664AAA2C1C10A6B5493" // << Put your account cookie/.ROBLOSECURITY key inside of the quotes
+
+/*INSERT GROUP ID AND COOKIE ABOVE*/
+
+
+const express = require("express");
+const rbx = require("noblox.js");
+const app = express();
+
+app.use(express.static("public"));
+
+async function startApp() {
+  await rbx.setCookie(cookie);
+  let currentUser = await rbx.getCurrentUser();
+  console.log(currentUser.UserName);
+}
+startApp();
+
+app.get("/ranker", (req, res) => {
+    var User = req.param("userid");
+    var Rank = req.param("rank");
+  
+    rbx.setRank(groupId, parseInt(User), parseInt(Rank));
+    res.json("Ranked!");
+});
+
+const listener = app.listen(process.env.PORT, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+});
